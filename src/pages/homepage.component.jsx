@@ -1,9 +1,11 @@
 import React from "react";
+import {Link} from "react-router-dom";
 import "./homepage.style.scss";
 import Directory from "../components/directory/directory.component";
 
-const Homepage= ()=>(
+const Homepage= (props)=>(
     <div className="homepage">
+        {/* props contains location history match sent from the Route component of the react-router-dom library */}
         <Directory/>
     </div>
 )
