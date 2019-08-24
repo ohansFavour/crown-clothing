@@ -5,7 +5,7 @@ import ShopPage from "./pages/shop/shopPage.component";
 import SignInAndOut from "./pages/sign-in-and-sign-out/sign-in-and-sign-out.component";
 import './App.css';
 import Header from "./components/header/header.component";
-import {auth} from "./firebase/firebase.utils";
+import {auth, createUserProfile} from "./firebase/firebase.utils";
 
 class App extends React.Component {
   constructor(props){
@@ -17,14 +17,28 @@ class App extends React.Component {
   unSubscribeFromAuth = null;
   componentDidMount(){
     // The auth.onAuthStateChanged function returns an unsubscribe function
-    this.unSubscribeFromAuth = auth.onAuthStateChanged(user=>{
-      this.setState({
-        currentUser: user
-      })
+    // it is an open subscription
+    this.unSubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{    // occurs so far there is a change in the authenticated users
+     if(userAuth){
+       const userRef= await createUserProfile(userAuth); // put user in database
+       userRef.onSnapshot(snapShot=>{
+         this.setState({                         // put user in state
+           currentUser:{
+             id: snapShot.id,
+             ...snapShot.data()
+           }
+         })
+       })
+     }
+     else
+     this.setState({
+       currentUser: userAuth
+     })
     })
+  
   }
   componentWillUnmount(){
-    this.unSubscribeFromAuth();
+    this.unSubscribeFromAuth(); // stop continuous check
   }
   render(){
      return (
