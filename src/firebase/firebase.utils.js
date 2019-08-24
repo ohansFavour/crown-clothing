@@ -23,7 +23,7 @@ const config={
 
   export const signInWithGoogle = ()=> auth.signInWithPopup(provider);
 
-  export const createUserProfile = async (userAuth, ...additionalData)=>{
+  export const createUserProfile = async (userAuth, additionalData)=>{
     if(!userAuth){
       return;
     }
@@ -32,17 +32,21 @@ const config={
     if(!snapshot.exists){
       const {displayName, email}= userAuth;
       const createdAt = new Date();
+      // if(!displayName){
+      //    displayName = additionalData.displayName;
+      // }
 
       try{
         await userRef.set({
           email, displayName,createdAt,...additionalData
         })
+        console.log(additionalData);
       }catch(error){
         console.log("error creating user", error.message)
       }
     }
     return userRef;
   }
-  
+
   export default firebase;
   

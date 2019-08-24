@@ -19,6 +19,10 @@ class SignUp extends React.Component{
       event.preventDefault();
       const {displayName, email, password, confirmPassword} = this.state;
       if(password !== confirmPassword){
+          this.setState({
+              password:"",
+              confirmPassword: ""
+          })
           alert("Passwords don't match");
           return;
       }  
@@ -27,9 +31,10 @@ class SignUp extends React.Component{
         return;
       }
       const {user} = await auth.createUserWithEmailAndPassword(email, password);   // returns the user data
+      
       try{
        await createUserProfile(user,{displayName});
-       alert("hi")
+       
          }catch(error){
              console.error(error);
          }
