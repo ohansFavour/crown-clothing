@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch , Route } from "react-router-dom";
+import {Switch , Route , Redirect } from "react-router-dom";
 import Homepage from "./pages/homePage/homepage.component";
 import ShopPage from "./pages/shop/shopPage.component";
 import SignInAndOut from "./pages/sign-in-and-sign-out/sign-in-and-sign-out.component";
@@ -32,7 +32,7 @@ class App extends React.Component {
        })
      }
      else
-     setCurrentUser(userAuth)
+     {setCurrentUser(userAuth)}
     })
   
   }
@@ -42,11 +42,16 @@ class App extends React.Component {
   render(){
      return (
     <div className="App">
-      <Header />
+      <Header currentUser={this.props.currentUser}/>
      <Switch>
      <Route  exact path="/" component={Homepage}/>
      <Route  exact path="/shop" component={ShopPage}/>
-     <Route  exact path="/signIn" component={SignInAndOut}/>
+     <Route  exact path="/signIn" render={() => this.props.currentUser ? (<Redirect to = "/"  />) : (<SignInAndOut/>)} />
+     {/*
+    since component is not included in the render method, you have to use <Component/>
+    */}
+     {/* render is used to selectively display a content in the Route
+     Redirect as it is named just redirects to "/" */}
      </Switch>
     </div>
   )
@@ -55,4 +60,7 @@ class App extends React.Component {
 const mapDispatchToProps=(dispatch) => ({
  setCurrentUser: user => dispatch( userAction(user) )
 });
-export default connect(null, mapDispatchToProps)(App);
+const mapStateToProps = ({user})=>({
+  currentUser: user.currentUser
+})
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -32,15 +32,13 @@ const config={
     if(!snapshot.exists){
       const {displayName, email}= userAuth;
       const createdAt = new Date();
-      // if(!displayName){
-      //    displayName = additionalData.displayName;
-      // }
+      
 
       try{
         await userRef.set({
           email, displayName,createdAt,...additionalData
         })
-        console.log(additionalData);
+
       }catch(error){
         console.log("error creating user", error.message)
       }
