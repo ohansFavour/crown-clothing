@@ -7,7 +7,8 @@ import './App.css';
 import Header from "./components/header/header.component";
 import {auth, createUserProfile} from "./firebase/firebase.utils";
 import {connect} from "react-redux";
-import {userAction} from "./redux/user/user.actions"
+import {userAction} from "./redux/user/user.actions";
+import CartPage from "./pages/cart-page/cart-page.component";
 
 class App extends React.Component {
   constructor(props){
@@ -45,7 +46,8 @@ class App extends React.Component {
       <Header currentUser={this.props.currentUser}/>
      <Switch>
      <Route  exact path="/" component={Homepage}/>
-     <Route  exact path="/shop" component={ShopPage}/>
+     <Route   path="/shop" component={ShopPage}/>
+     <Route  exact path="/checkout" component={CartPage}/>
      <Route  exact path="/signIn" render={() => this.props.currentUser ? (<Redirect to = "/"  />) : (<SignInAndOut/>)} />
      {/*
     since component is not included in the render method, you have to use <Component/>
