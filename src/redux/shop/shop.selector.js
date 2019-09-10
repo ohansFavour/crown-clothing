@@ -8,10 +8,10 @@ export const selectCollection= createSelector(
 ) 
 export const selectCollectionArray = createSelector(
     [selectCollection],
-    (collection)=> Object.keys(collection).map(item=> collection[item])
+    (collection)=> collection ? Object.keys(collection).map(item=> collection[item]) : null
 )
 
 export const selectSpecificCollection = (collectionId)=> createSelector(
  [selectCollection],
- (collection)=> collection[collectionId]
+ (collection)=> collection ? collection[collectionId] : null
 )

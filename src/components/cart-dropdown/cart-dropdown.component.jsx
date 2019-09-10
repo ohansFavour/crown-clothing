@@ -6,7 +6,7 @@ import {getCartItems} from "../../redux/cart/cart.selector";
 import CartItem from "../cart-item/cart-item.component";
 import {createStructuredSelector} from "reselect";
 import {toggleCartHidden} from "../../redux/cart/cart.actions";
-import {withRouter, Link} from "react-router-dom";
+import {withRouter} from "react-router-dom";
 
 
 

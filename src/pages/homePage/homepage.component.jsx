@@ -1,11 +1,11 @@
 import React from "react";
-import "./homepage.style.scss";
+import {StyledHomepage} from "./homepage.styles" ;
 import Directory from "../../components/directory/directory.component";
 
 const Homepage= (props)=>(
-    <div className="homepage">
+    <StyledHomepage className="homepage">
         {/* props contains location history match sent from the Route component of the react-router-dom library */}
         <Directory/>
-    </div>
+    </StyledHomepage>
 )
 export default Homepage;

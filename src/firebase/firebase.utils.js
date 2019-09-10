@@ -45,6 +45,35 @@ const config={
     }
     return userRef;
   }
+  export const convertCollectionSnapshotToMap = (collectionSnapshot)=>{
+   const transformedResult = collectionSnapshot.docs.map(doc=>{
+     const {title, items} = doc.data();
+    
+     return {
+       routeName: encodeURI(title.toLowerCase()),
+       id: doc.id,
+       title,
+       items
+     }
+   })
+    return transformedResult.reduce((accumulator,collectionObj)=>{
+      accumulator[collectionObj.title.toLowerCase()] = collectionObj;
+      return accumulator;
+    },{})
+  }
 
+  export const addCollectionAndDocuments = async (collectionKey, itemsArray)=>{
+    const collectionRef = firestore.collection(`${collectionKey}`);
+
+    const batch = firestore.batch(); // accumulate all action, then send all just one time.
+    itemsArray.forEach( obj=> {
+      
+      const docRef = collectionRef.doc();
+      batch.set(docRef, obj)}
+      )
+
+      return await batch.commit(); // returns a promise when it completes
+
+  }
   export default firebase;
   

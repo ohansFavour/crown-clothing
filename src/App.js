@@ -5,26 +5,23 @@ import ShopPage from "./pages/shop/shopPage.component";
 import SignInAndOut from "./pages/sign-in-and-sign-out/sign-in-and-sign-out.component";
 import './App.css';
 import Header from "./components/header/header.component";
-import {auth, createUserProfile} from "./firebase/firebase.utils";
+import {auth, createUserProfile, addCollectionAndDocuments} from "./firebase/firebase.utils";
 import {connect} from "react-redux";
 import {userAction} from "./redux/user/user.actions";
 import CartPage from "./pages/cart-page/cart-page.component";
+import {selectCollectionArray} from "./redux/shop/shop.selector";
 
 class App extends React.Component {
-  constructor(props){
-    super(props);
-    this.state={
-      currentUser: null
-    }
-  }
+ 
   unSubscribeFromAuth = null;
   componentDidMount(){
-    const {setCurrentUser} = this.props;
+    const {setCurrentUser, collectionArray} = this.props;
     // The auth.onAuthStateChanged function returns an unsubscribe function
     // it is an open subscription
     this.unSubscribeFromAuth = auth.onAuthStateChanged(async userAuth=>{    // occurs so far there is a change in the authenticated users
      if(userAuth){
        const userRef= await createUserProfile(userAuth); // put user in database
+       // onSnapshot is a listener, to check if there is any change in the userRef data
        userRef.onSnapshot(snapShot=>{
        setCurrentUser({
              id: snapShot.id,
@@ -35,6 +32,8 @@ class App extends React.Component {
      else
      {setCurrentUser(userAuth)}
     })
+     // commented out, we want to upload once
+    //addCollectionAndDocuments('collection',collectionArray.map(({items, title})=> ({items, title})));
   
   }
   componentWillUnmount(){
@@ -43,7 +42,7 @@ class App extends React.Component {
   render(){
      return (
     <div className="App">
-      <Header currentUser={this.props.currentUser}/>
+    <Header currentUser={this.props.currentUser}/>
      <Switch>
      <Route  exact path="/" component={Homepage}/>
      <Route  path="/shop" component={ShopPage}/>
@@ -62,7 +61,8 @@ class App extends React.Component {
 const mapDispatchToProps=(dispatch) => ({
  setCurrentUser: user => dispatch( userAction(user) )
 });
-const mapStateToProps = ({user})=>({
-  currentUser: user.currentUser
+const mapStateToProps = (state)=>({
+  currentUser: state.user.currentUser,
+  collectionArray: selectCollectionArray(state)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(App);
