@@ -1,6 +1,16 @@
-This E-commerce Application was built using React, Redux and Firebase
 
-<h1>Images</h1>
+<h3>Crown-Clothing</h3>
+<p> Crown-Clothing is a full-fledged E-commerce website created with React, Redux and Firebase</p>
+
+<h4> Features & Technologies </h4>
+<ul>
+  <li> React</li>
+  <li> Redux</li>
+  <li> Firebase</li> 
+  <li>Stripe Integration</li>
+</ul>
+
+<h1 align="center">Images</h1>
 
 ![cr](https://user-images.githubusercontent.com/46670083/79167578-a523fe80-7ddf-11ea-88db-8db628486249.PNG)
 ![crown-landing](https://user-images.githubusercontent.com/46670083/79167582-a6edc200-7ddf-11ea-9268-859e7975a56e.PNG)
